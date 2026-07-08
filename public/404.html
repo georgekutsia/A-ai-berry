@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Açai Berry · Error 404</title>
+    <style>
+      :root {
+        --bg: #22001f;
+        --bg-deep: #160014;
+        --panel: rgba(64, 8, 56, 0.78);
+        --line: rgba(255, 255, 255, 0.86);
+        --text: #fff8ff;
+        --muted: rgba(255, 248, 255, 0.74);
+        --cyan: #00deef;
+        --pink: #f06dea;
+        --lime: #8cf54f;
+        --blue: #07adff;
+        --shadow-pink: 0 0 20px rgba(240, 109, 234, 0.45);
+        --shadow-cyan: 0 0 24px rgba(0, 222, 239, 0.4);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Nunito', sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top, rgba(114, 28, 86, 0.38), transparent 30%),
+          linear-gradient(180deg, #32002f 0%, var(--bg) 42%, var(--bg-deep) 100%);
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .scene {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.25rem;
+      }
+
+      .bubble,
+      .leaf {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.16;
+      }
+
+      .bubble {
+        border-radius: 50%;
+        background: rgba(255, 214, 230, 0.18);
+      }
+
+      .bubble--one {
+        width: 14rem;
+        height: 14rem;
+        top: 10%;
+        left: -3rem;
+        animation: background-drift-one 22s ease-in-out infinite;
+      }
+
+      .bubble--two {
+        width: 17rem;
+        height: 17rem;
+        right: -4rem;
+        bottom: 18%;
+        animation: background-drift-two 28s ease-in-out infinite;
+      }
+
+      .bubble--three {
+        width: 9rem;
+        height: 9rem;
+        top: 55%;
+        left: 72%;
+        animation: background-drift-three 18s ease-in-out infinite;
+      }
+
+      .leaf {
+        width: 3rem;
+        height: 6rem;
+        background: linear-gradient(180deg, rgba(147, 255, 119, 0.24), rgba(255, 255, 255, 0));
+        border-radius: 90% 0;
+      }
+
+      .leaf--one {
+        top: 14%;
+        right: 12%;
+        transform: rotate(24deg);
+        animation: leaf-drift-one 19s ease-in-out infinite;
+      }
+
+      .leaf--two {
+        left: 10%;
+        bottom: 18%;
+        transform: rotate(-28deg);
+        animation: leaf-drift-two 24s ease-in-out infinite;
+      }
+
+      .panel {
+        position: relative;
+        width: min(100%, 62rem);
+        padding: 1.6rem;
+        border: 2px solid rgba(255, 255, 255, 0.76);
+        border-radius: 2.5rem;
+        background:
+          linear-gradient(180deg, rgba(84, 18, 70, 0.48), rgba(44, 3, 37, 0.76)),
+          var(--panel);
+        box-shadow:
+          inset 0 0 1.2rem rgba(255, 255, 255, 0.05),
+          0 0 2rem rgba(255, 192, 255, 0.16);
+      }
+
+      .panel__inner {
+        display: grid;
+        gap: 1.8rem;
+        align-items: center;
+        padding: 1.4rem;
+        border: 2px solid rgba(240, 109, 234, 0.54);
+        border-radius: 2rem;
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .titlemark {
+        display: grid;
+        justify-items: center;
+        font-family: 'Baloo 2', cursive;
+        font-size: clamp(3.4rem, 15vw, 7rem);
+        font-weight: 800;
+        line-height: 0.82;
+      }
+
+      .neon {
+        display: inline-flex;
+      }
+
+      .neon span {
+        display: inline-block;
+        color: transparent;
+      }
+
+      .neon--pink span {
+        -webkit-text-stroke: 2px var(--pink);
+        text-shadow: var(--shadow-pink);
+      }
+
+      .neon--blue span {
+        -webkit-text-stroke: 2px var(--blue);
+        text-shadow: var(--shadow-cyan);
+      }
+
+      .copy {
+        display: grid;
+        gap: 0.75rem;
+        text-align: center;
+      }
+
+      .status {
+        margin: 0;
+        color: var(--lime);
+        font-size: 0.92rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: 'Baloo 2', cursive;
+        font-size: clamp(2.2rem, 9vw, 4.8rem);
+        line-height: 0.96;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .mascot-wrap {
+        display: grid;
+        justify-items: center;
+      }
+
+      .mascot {
+        width: min(70vw, 18rem);
+        overflow: visible;
+      }
+
+      .mascot__float,
+      .mascot__leaf-group,
+      .mascot__face,
+      .mascot__feet,
+      .mascot__mouth,
+      .mascot__eye,
+      .mascot__spark {
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .mascot__float {
+        animation: berry-float 4.8s ease-in-out infinite;
+      }
+
+      .mascot__leaf-group {
+        transform-origin: center top;
+        animation: berry-leaf-sway 3.6s ease-in-out infinite;
+      }
+
+      .mascot__body,
+      .mascot__foot {
+        fill: #14007d;
+        stroke: var(--pink);
+        stroke-width: 4;
+      }
+
+      .mascot__leaf {
+        stroke-width: 4;
+      }
+
+      .mascot__leaf--main {
+        fill: #0bbf78;
+        stroke: #00ff8a;
+      }
+
+      .mascot__leaf--accent {
+        fill: #0c8f59;
+        stroke: #00ff8a;
+      }
+
+      .mascot__eye {
+        fill: #a961ff;
+        animation: berry-blink 5.4s ease-in-out infinite;
+      }
+
+      .mascot__eye--right {
+        animation-delay: 0.1s;
+      }
+
+      .mascot__mouth,
+      .mascot__spark {
+        fill: none;
+        stroke: var(--pink);
+        stroke-linecap: round;
+      }
+
+      .mascot__mouth {
+        stroke-width: 6;
+        animation: sad-mouth 4.2s ease-in-out infinite;
+      }
+
+      .mascot__feet {
+        animation: berry-bounce 4.8s ease-in-out infinite;
+      }
+
+      .mascot__spark {
+        stroke-width: 6;
+        animation: berry-spark 2.6s ease-in-out infinite;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.95rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: linear-gradient(135deg, var(--lime), #d6ff80);
+        color: #22001f;
+        font-weight: 800;
+        box-shadow: 0 0 24px rgba(140, 245, 79, 0.35);
+      }
+
+      @keyframes background-drift-one {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(2.8rem, -1rem, 0); }
+      }
+
+      @keyframes background-drift-two {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(-3.4rem, 1.2rem, 0); }
+      }
+
+      @keyframes background-drift-three {
+        0%, 100% { transform: translate3d(0, 0, 0); }
+        50% { transform: translate3d(2rem, 0.8rem, 0); }
+      }
+
+      @keyframes leaf-drift-one {
+        0%, 100% { transform: rotate(24deg) translate3d(0, 0, 0); }
+        50% { transform: rotate(32deg) translate3d(-1rem, 0.6rem, 0); }
+      }
+
+      @keyframes leaf-drift-two {
+        0%, 100% { transform: rotate(-28deg) translate3d(0, 0, 0); }
+        50% { transform: rotate(-18deg) translate3d(1.1rem, -0.8rem, 0); }
+      }
+
+      @keyframes berry-float {
+        0%, 100% { transform: translateY(0) rotate(-1deg); }
+        25% { transform: translateY(-5px) rotate(0.6deg); }
+        50% { transform: translateY(-9px) rotate(1.2deg); }
+        75% { transform: translateY(-4px) rotate(0deg); }
+      }
+
+      @keyframes berry-leaf-sway {
+        0%, 100% { transform: rotate(-2deg) translateY(0); }
+        50% { transform: rotate(5deg) translateY(-1px); }
+      }
+
+      @keyframes berry-blink {
+        0%, 44%, 48%, 100% { transform: scaleY(1); }
+        46% { transform: scaleY(0.1); }
+      }
+
+      @keyframes berry-bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(2px); }
+      }
+
+      @keyframes berry-spark {
+        0%, 100% { opacity: 0.84; transform: scale(1) rotate(0deg); }
+        50% { opacity: 1; transform: scale(1.06) rotate(4deg); }
+      }
+
+      @keyframes sad-mouth {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(2px); }
+      }
+
+      @media (min-width: 820px) {
+        .panel__inner {
+          grid-template-columns: minmax(16rem, 20rem) 1fr;
+          gap: 2.4rem;
+          padding: 1.8rem;
+        }
+
+        .copy {
+          text-align: left;
+          align-content: center;
+        }
+
+        .actions {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .bubble--one,
+        .bubble--two,
+        .bubble--three,
+        .leaf--one,
+        .leaf--two,
+        .mascot__float,
+        .mascot__leaf-group,
+        .mascot__eye,
+        .mascot__mouth,
+        .mascot__feet,
+        .mascot__spark {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="scene">
+      <span class="bubble bubble--one"></span>
+      <span class="bubble bubble--two"></span>
+      <span class="bubble bubble--three"></span>
+      <span class="leaf leaf--one"></span>
+      <span class="leaf leaf--two"></span>
+
+      <section class="panel" aria-labelledby="not-found-title">
+        <div class="panel__inner">
+          <div class="mascot-wrap" aria-hidden="true">
+            <svg class="mascot" viewBox="0 0 260 300">
+              <defs>
+                <filter id="berryGlow404">
+                  <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+                  <feMerge>
+                    <feMergeNode in="blur"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                  </feMerge>
+                </filter>
+              </defs>
+              <g filter="url(#berryGlow404)" class="mascot__float">
+                <g class="mascot__leaf-group">
+                  <path
+                    d="M130 18c22 4 46 22 48 52-18 4-33-2-45-16-9-10-12-21-11-36h8Z"
+                    class="mascot__leaf mascot__leaf--main"
+                  ></path>
+                  <path
+                    d="M128 18c-26 6-44 24-48 52 18 4 34-2 46-16 8-10 12-21 10-36h-8Z"
+                    class="mascot__leaf mascot__leaf--accent"
+                  ></path>
+                </g>
+                <path
+                  d="M130 62c56 0 92 42 92 98 0 63-40 104-92 104S38 223 38 160c0-56 36-98 92-98Z"
+                  class="mascot__body"
+                ></path>
+                <g class="mascot__face">
+                  <ellipse cx="95" cy="157" rx="10" ry="14" class="mascot__eye mascot__eye--left"></ellipse>
+                  <ellipse cx="165" cy="157" rx="10" ry="14" class="mascot__eye mascot__eye--right"></ellipse>
+                  <path d="M95 214c12-12 58-12 70 0" class="mascot__mouth"></path>
+                </g>
+                <g class="mascot__feet">
+                  <ellipse cx="86" cy="259" rx="32" ry="24" class="mascot__foot"></ellipse>
+                  <ellipse cx="174" cy="259" rx="32" ry="24" class="mascot__foot"></ellipse>
+                </g>
+                <g>
+                  <path d="M16 86c20 8 33 24 39 48" class="mascot__spark"></path>
+                  <path d="M244 86c-20 8-33 24-39 48" class="mascot__spark"></path>
+                  <path d="M36 58c10 12 14 22 13 34" class="mascot__spark"></path>
+                  <path d="M224 58c-10 12-14 22-13 34" class="mascot__spark"></path>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+          <div class="copy">
+            <div class="titlemark" aria-hidden="true">
+              <span class="neon neon--pink"><span>4</span><span>0</span><span>4</span></span>
+              <span class="neon neon--blue"><span>E</span><span>R</span><span>R</span><span>O</span><span>R</span></span>
+            </div>
+            <p class="status">Página no encontrada</p>
+            <h1 id="not-found-title">Este bowl se ha perdido por el camino.</h1>
+            <p>
+              La página que buscas no está disponible o ya no existe. Vuelve al inicio para seguir
+              viendo bowls, toppings y la carta completa de Açai Berry.
+            </p>
+            <div class="actions">
+              <a class="button" href="/">Volver al inicio</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+  </html>
