@@ -3,12 +3,51 @@ import BerryMascot from './BerryMascot';
 import NeonWord from './NeonWord';
 
 const REWARD_INGREDIENTS = [
-  { name: 'Fresa', src: '/fruits/Trozo Fresa.png', className: 'loyalty-card__reward-item--strawberry' },
-  { name: 'Almendras', src: '/topping-extras/Almendras.png', className: 'loyalty-card__reward-item--almonds' },
-  { name: 'Oreo', src: '/toppings/Oreo.png', className: 'loyalty-card__reward-item--oreo' },
-  { name: 'Plátano', src: '/fruits/Trozo plátano.png', className: 'loyalty-card__reward-item--banana' },
-  { name: 'Arándanos', src: '/fruits/Trozo Arándano.png', className: 'loyalty-card__reward-item--blueberry' }
+  { name: 'Fresa', src: '/fruits/Trozo Fresa.png', size: 4.8 },
+  { name: 'Arandanos', src: '/fruits/Trozo Ar\u00E1ndano.png', size: 3.4 },
+  { name: 'Kiwi', src: '/fruits/Trozo Kiwi.png', size: 4.2 },
+  { name: 'Mango', src: '/fruits/Trozo Mango.png', size: 5.1 },
+  { name: 'Pistacho', src: '/topping-extras/Pistacho.png', size: 4.05 },
+  { name: 'Oreo', src: '/toppings/Oreo.png', size: 4.4 },
+  { name: 'Platano', src: '/fruits/Trozo pl\u00E1tano.png', size: 4.6 },
+  { name: 'Granola', src: '/toppings/Granola.png', size: 4.75 }
 ];
+
+const REWARD_ARC_CENTER_X = 50;
+const REWARD_ARC_CENTER_Y = 69;
+
+function getRewardArcConfig(viewportWidth) {
+  if (viewportWidth < 570) {
+    return { radiusX: 56, radiusY: 44 };
+  }
+
+  return { radiusX: 84, radiusY: 68 };
+}
+
+function getRewardArcPoint(index, total, viewportWidth) {
+  const { radiusX, radiusY } = getRewardArcConfig(viewportWidth);
+  const progress = total <= 1 ? 0.5 : index / (total - 1);
+  const angle = Math.PI - progress * Math.PI;
+
+  return {
+    x: Math.cos(angle) * radiusX,
+    y: -Math.sin(angle) * radiusY
+  };
+}
+
+function getRewardOrbitStyle(index, ingredient, viewportWidth) {
+  const point = getRewardArcPoint(index, REWARD_INGREDIENTS.length, viewportWidth);
+
+  return {
+    '--reward-delay': `${index * 0.1}s`,
+    '--reward-float-delay': `${0.25 + index * 0.1}s`,
+    '--reward-size': `${ingredient.size}rem`,
+    '--reward-offset-x': `${point.x.toFixed(2)}%`,
+    '--reward-offset-y': `${point.y.toFixed(2)}%`,
+    left: `calc(${REWARD_ARC_CENTER_X}% + ${point.x.toFixed(2)}%)`,
+    top: `calc(${REWARD_ARC_CENTER_Y}% + ${point.y.toFixed(2)}%)`
+  };
+}
 
 function InstagramIcon() {
   return (
@@ -56,6 +95,20 @@ function LoyaltyStamp({ number, isComplete }) {
 
 function LoyaltyBackCard({ content, completedStamps }) {
   const isRewardVisible = completedStamps === 8;
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window === 'undefined' ? 1200 : window.innerWidth
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <article className="loyalty-card loyalty-card--back" aria-labelledby="loyalty-card-back-title">
@@ -83,15 +136,20 @@ function LoyaltyBackCard({ content, completedStamps }) {
                   loading="lazy"
                   decoding="async"
                 />
-                {REWARD_INGREDIENTS.map((ingredient) => (
-                  <img
+                {REWARD_INGREDIENTS.map((ingredient, index) => (
+                  <span
                     key={ingredient.name}
-                    className={`loyalty-card__reward-item ${ingredient.className}`.trim()}
-                    src={ingredient.src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
+                    className="loyalty-card__reward-orbit"
+                    style={getRewardOrbitStyle(index, ingredient, viewportWidth)}
+                  >
+                    <img
+                      className="loyalty-card__reward-item"
+                      src={ingredient.src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
                 ))}
               </div>
               <strong>{content.freeBowlMessage}</strong>
@@ -100,8 +158,18 @@ function LoyaltyBackCard({ content, completedStamps }) {
         </div>
 
         <div className="loyalty-card__reward">
-          <strong>{content.rewardLine}</strong>
-          <p>{content.rewardNote}</p>
+          {isRewardVisible ? (
+            <div className="loyalty-card__reward-neon" aria-live="polite">
+              <span className="loyalty-card__reward-neon-mark">!</span>
+              <NeonWord text="1 BOWL GRATIS" tone="pink" />
+              <span className="loyalty-card__reward-neon-mark">!</span>
+            </div>
+          ) : (
+            <>
+              <strong>{content.rewardLine}</strong>
+              <p>{content.rewardNote}</p>
+            </>
+          )}
         </div>
       </div>
     </article>
@@ -157,7 +225,7 @@ export default function LoyaltySection({ content, brand }) {
           }, 300)
         : window.setTimeout(() => {
             setCompletedStamps(0);
-          }, 1800);
+          }, 2800);
 
     return () => {
       window.clearTimeout(timeoutId);

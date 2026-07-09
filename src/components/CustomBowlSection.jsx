@@ -212,12 +212,6 @@ function OptionGroup({ group, index }) {
     const resetItems = () => {
       items.forEach((item) => {
         item.classList.remove('is-centered', 'is-near-centered');
-        item.style.removeProperty('--item-scale');
-        item.style.removeProperty('--item-shift');
-        item.style.removeProperty('--item-brightness');
-        item.style.removeProperty('--item-visual-progress');
-        item.style.removeProperty('--item-visual-scale');
-        item.style.removeProperty('--item-visual-opacity');
       });
     };
 
@@ -252,40 +246,12 @@ function OptionGroup({ group, index }) {
       rankedItems.slice(0, 2).forEach((entry) => {
         if (entry.distance < 190) {
           entry.item.classList.add('is-centered');
-          const focusAmount = Math.max(0, 1 - entry.distance / 190);
-          const scale = 1.18 + focusAmount * 0.32;
-          const shift = 0.1 + focusAmount * 0.08;
-          const brightness = 1.04 + focusAmount * 0.06;
-          const visualProgress = 0.62 + focusAmount * 0.38;
-          const visualScale = 0.92 + focusAmount * 0.14;
-          const visualOpacity = 0.72 + focusAmount * 0.28;
-
-          entry.item.style.setProperty('--item-scale', scale.toFixed(3));
-          entry.item.style.setProperty('--item-shift', `${shift.toFixed(3)}rem`);
-          entry.item.style.setProperty('--item-brightness', brightness.toFixed(3));
-          entry.item.style.setProperty('--item-visual-progress', visualProgress.toFixed(3));
-          entry.item.style.setProperty('--item-visual-scale', visualScale.toFixed(3));
-          entry.item.style.setProperty('--item-visual-opacity', visualOpacity.toFixed(3));
         }
       });
 
       rankedItems.slice(2, 4).forEach((entry) => {
         if (entry.distance < 280) {
           entry.item.classList.add('is-near-centered');
-          const focusAmount = Math.max(0, 1 - entry.distance / 280);
-          const scale = 1.06 + focusAmount * 0.16;
-          const shift = 0.04 + focusAmount * 0.06;
-          const brightness = 1.02 + focusAmount * 0.04;
-          const visualProgress = 0.18 + focusAmount * 0.3;
-          const visualScale = 0.82 + focusAmount * 0.1;
-          const visualOpacity = 0.18 + focusAmount * 0.42;
-
-          entry.item.style.setProperty('--item-scale', scale.toFixed(3));
-          entry.item.style.setProperty('--item-shift', `${shift.toFixed(3)}rem`);
-          entry.item.style.setProperty('--item-brightness', brightness.toFixed(3));
-          entry.item.style.setProperty('--item-visual-progress', visualProgress.toFixed(3));
-          entry.item.style.setProperty('--item-visual-scale', visualScale.toFixed(3));
-          entry.item.style.setProperty('--item-visual-opacity', visualOpacity.toFixed(3));
         }
       });
     };
