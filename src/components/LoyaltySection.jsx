@@ -95,6 +95,7 @@ function LoyaltyStamp({ number, isComplete }) {
 
 function LoyaltyBackCard({ content, completedStamps }) {
   const isRewardVisible = completedStamps === 8;
+  const isSpanishStyleReward = content.freeBowlNeon?.includes('gratis');
   const [viewportWidth, setViewportWidth] = useState(() =>
     typeof window === 'undefined' ? 1200 : window.innerWidth
   );
@@ -152,24 +153,23 @@ function LoyaltyBackCard({ content, completedStamps }) {
                   </span>
                 ))}
               </div>
-              <strong>{content.freeBowlMessage}</strong>
             </div>
           </div>
         </div>
 
-        <div className="loyalty-card__reward">
-          {isRewardVisible ? (
-            <div className="loyalty-card__reward-neon" aria-live="polite">
-              <span className="loyalty-card__reward-neon-mark">!</span>
-              <NeonWord text="1 BOWL GRATIS" tone="pink" />
-              <span className="loyalty-card__reward-neon-mark">!</span>
-            </div>
-          ) : (
-            <>
-              <strong>{content.rewardLine}</strong>
-              <p>{content.rewardNote}</p>
-            </>
-          )}
+        <div className={`loyalty-card__reward ${isRewardVisible ? 'is-showing-neon' : ''}`.trim()}>
+          <div className="loyalty-card__reward-copy loyalty-card__reward-copy--default">
+            <strong>{content.rewardLine}</strong>
+            <p>{content.rewardNote}</p>
+          </div>
+
+          <div className="loyalty-card__reward-copy loyalty-card__reward-copy--neon" aria-live="polite">
+            <NeonWord
+              text={content.freeBowlNeon.toUpperCase()}
+              tone="pink"
+              className="loyalty-card__reward-neon-word"
+            />
+          </div>
         </div>
       </div>
     </article>

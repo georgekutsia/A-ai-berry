@@ -164,6 +164,7 @@ export const siteContent = {
       rewardLine: '\u00a1Compra 8 bowls y el siguiente es gratis!',
       rewardNote: 'V\u00e1lido solo para tama\u00f1os Small, Jungle e Infinity',
       freeBowlMessage: '\u00a11 bowl gratis desbloqueado!',
+      freeBowlNeon: '¡ 1 bowl gratis !',
       frontTags: ['Fit', 'Natural'],
       contacts: [
         { icon: 'instagram', label: '@acaiberry.es' },
@@ -362,6 +363,7 @@ export const siteContent = {
       rewardLine: 'Compra 8 bols i el seg\u00fcent \u00e9s gratis!',
       rewardNote: 'V\u00e0lid nom\u00e9s per a mides Small, Jungle i Infinity',
       freeBowlMessage: '1 bol gratis desbloquejat!',
+      freeBowlNeon: '¡ 1 bol gratis !',
       frontTags: ['Fit', 'Natural'],
       contacts: [
         { icon: 'instagram', label: '@acaiberry.es' },
@@ -560,6 +562,7 @@ export const siteContent = {
       rewardLine: 'Buy 8 bowls and the next one is free!',
       rewardNote: 'Valid for Small, Jungle and Infinity sizes only',
       freeBowlMessage: '1 free bowl unlocked!',
+      freeBowlNeon: '1 free bowl !',
       frontTags: ['Fit', 'Natural'],
       contacts: [
         { icon: 'instagram', label: '@acaiberry.es' },

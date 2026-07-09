@@ -1286,27 +1286,76 @@ button {
 
 .loyalty-card__reward {
   display: grid;
-  gap: 0.35rem;
+  place-items: center;
   text-align: center;
+  position: relative;
+  min-height: 5.6rem;
+}
+
+.loyalty-card__reward-copy {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  transition:
+    opacity 260ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 320ms ease,
+    font-size 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.loyalty-card__reward-copy--default {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.loyalty-card__reward-copy--neon {
+  opacity: 0;
+  font-size: 5px;
+  transform: translateY(-6.2rem) scale(1);
+  filter: blur(0.18rem);
+  transition-delay: 0s;
+  z-index: 2;
+}
+
+.loyalty-card__reward.is-showing-neon .loyalty-card__reward-copy--default {
+  opacity: 0;
+  transform: translateY(-0.3rem) scale(0.96);
+  filter: blur(0.14rem);
+}
+
+.loyalty-card__reward.is-showing-neon .loyalty-card__reward-copy--neon {
+  opacity: 1;
+  font-size: 1rem;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition-delay: 220ms;
 }
 
 .loyalty-card__reward-neon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.12rem;
+  gap: 0.18rem;
   justify-self: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .loyalty-card__reward-neon-mark {
   color: #f776ff;
   font-family: 'Baloo 2', cursive;
-  font-size: clamp(1.35rem, 4.4vw, 1.8rem);
+  font-size: 1em;
   line-height: 1;
   text-shadow:
     0 0 0.3rem rgba(247, 118, 255, 0.75),
     0 0 0.85rem rgba(247, 118, 255, 0.52),
     0 0 1.5rem rgba(247, 118, 255, 0.35);
+}
+
+.loyalty-card__reward-neon-word {
+  font-size: clamp(1.55rem, 5vw, 2.15rem);
+  line-height: 1;
 }
 
 .loyalty-card__reward-banner {
@@ -1323,27 +1372,11 @@ button {
   pointer-events: none;
 }
 
-.loyalty-card__reward-banner strong {
-  padding: 0.75rem 1rem;
-  border-radius: 999px;
-  color: white;
-  background: linear-gradient(135deg, #8cf54f, #4edc84);
-  box-shadow: 0 0 24px rgba(140, 245, 79, 0.3);
-  font-family: 'Baloo 2', cursive;
-  font-size: clamp(1rem, 3.8vw, 1.35rem);
-  text-transform: uppercase;
-}
-
 .loyalty-card__reward-visual {
   display: grid;
   justify-items: center;
   align-content: center;
-  gap: 0.7rem;
   width: min(100%, 17rem);
-}
-
-.loyalty-card__reward-visual strong {
-  text-align: center;
 }
 
 .loyalty-card__reward-bowl-scene {
