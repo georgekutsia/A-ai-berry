@@ -16,8 +16,7 @@ export default function HeroSection({ content }) {
           <a className="button button--ghost" href="#custom">
             {content.secondaryCta}
           </a>
-        </div>
-
+        </div> 
         <div className="hero-section__stats">
           {content.stats.map((item) => (
             <div key={item.label} className="stat-chip">
