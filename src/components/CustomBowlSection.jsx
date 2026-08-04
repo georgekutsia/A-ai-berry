@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import SectionHeading from './SectionHeading';
 
@@ -55,16 +55,16 @@ const ASSET_MAP = {
     'mix de semillas': '/toppings/Mix de semillas.png',
     'mix de llavors': '/toppings/Mix de semillas.png',
     'seed mix': '/toppings/Mix de semillas.png',
-    'leche condensada': '/toppings/Leche condensada.png',
-    'llet condensada': '/toppings/Leche condensada.png',
-    'condensed milk': '/toppings/Leche condensada.png',
+    'leche condensada': '/toppings/Leche Condensada.png',
+    'llet condensada': '/toppings/Leche Condensada.png',
+    'condensed milk': '/toppings/Leche Condensada.png',
     'leche en polvo': '/toppings/Leche en polvo.png',
     'llet en pols': '/toppings/Leche en polvo.png',
     'powdered milk': '/toppings/Leche en polvo.png',
-    'filipino blanco': '/toppings/Filipino blanco.png',
-    'filipino blanc': '/toppings/Filipino blanco.png',
-    'white filipino': '/toppings/Filipino blanco.png',
-    'chips ahoy': '/toppings/Chips Ahoy!.png'
+    'filipino blanco': '/toppings/Filipino Blanco.png',
+    'filipino blanc': '/toppings/Filipino Blanco.png',
+    'white filipino': '/toppings/Filipino Blanco.png',
+    'chips ahoy': '/toppings/Chips ahoy!.png'
   },
   'topping-extra': {
     almendras: '/topping-extras/Almendras.png',
@@ -196,86 +196,47 @@ function BuildSizeTable({ sizes, badgeLabel, badgePrefix }) {
   );
 }
 
-function OptionGroup({ group, index }) {
+function OptionGroup({ group, index, onVisualOpen }) {
   const itemRefs = useRef([]);
+  const hoverBoostTimers = useRef(new WeakMap());
 
-  useEffect(() => {
-    const items = itemRefs.current.filter(Boolean);
-
-    if (!items.length || typeof window === 'undefined') {
-      return undefined;
+  const startBoostTimer = (node) => {
+    if (!node || typeof window === 'undefined') {
+      return;
     }
 
-    let frameId = 0;
-    const mobileQuery = window.matchMedia('(max-width: 959px)');
+    if (hoverBoostTimers.current.has(node)) {
+      return;
+    }
 
-    const resetItems = () => {
-      items.forEach((item) => {
-        item.classList.remove('is-centered', 'is-near-centered');
-      });
-    };
+    const timerId = window.setTimeout(() => {
+      node.classList.add('is-hover-boosted');
+    }, 3000);
 
-    const updateFocus = () => {
-      frameId = 0;
+    hoverBoostTimers.current.set(node, timerId);
+  };
 
-      if (!mobileQuery.matches) {
-        resetItems();
-        return;
-      }
+  const clearBoostTimer = (node) => {
+    if (!node || typeof window === 'undefined') {
+      return;
+    }
 
-      const viewportCenter = window.innerHeight / 2;
-      const rankedItems = items
-        .map((item) => {
-          const rect = item.getBoundingClientRect();
-          const itemCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(itemCenter - viewportCenter);
+    const timerId = hoverBoostTimers.current.get(node);
 
-          return {
-            item,
-            distance
-          };
-        })
-        .filter(({ item }) => {
-          const rect = item.getBoundingClientRect();
-          return rect.bottom > 0 && rect.top < window.innerHeight;
-        })
-        .sort((left, right) => left.distance - right.distance);
+    if (timerId) {
+      window.clearTimeout(timerId);
+      hoverBoostTimers.current.delete(node);
+    }
 
-      resetItems();
+    node.classList.remove('is-hover-boosted');
+  };
 
-      rankedItems.slice(0, 2).forEach((entry) => {
-        if (entry.distance < 190) {
-          entry.item.classList.add('is-centered');
-        }
-      });
-
-      rankedItems.slice(2, 4).forEach((entry) => {
-        if (entry.distance < 280) {
-          entry.item.classList.add('is-near-centered');
-        }
-      });
-    };
-
-    const requestUpdate = () => {
-      if (!frameId) {
-        frameId = window.requestAnimationFrame(updateFocus);
-      }
-    };
-
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-    requestUpdate();
-
-    return () => {
-      if (frameId) {
-        window.cancelAnimationFrame(frameId);
-      }
-
-      resetItems();
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
-    };
-  }, [group]);
+  const handleVisualKeyDown = (event, assetSrc, label) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onVisualOpen(assetSrc, label);
+    }
+  };
 
   return (
     <article className={`option-group option-group--${index}`.trim()}>
@@ -295,6 +256,10 @@ function OptionGroup({ group, index }) {
                 ref={(node) => {
                   itemRefs.current[itemIndex] = node;
                 }}
+                onMouseEnter={(event) => startBoostTimer(event.currentTarget)}
+                onMouseLeave={(event) => clearBoostTimer(event.currentTarget)}
+                onFocus={(event) => startBoostTimer(event.currentTarget)}
+                onBlur={(event) => clearBoostTimer(event.currentTarget)}
                 className={`option-group__item${assetSrc ? ' option-group__item--has-visual' : ''}`}
               >
                 <span className="option-group__item-label">
@@ -307,8 +272,12 @@ function OptionGroup({ group, index }) {
                   <img
                     className="option-group__item-visual"
                     src={assetSrc}
-                    alt=""
-                    aria-hidden="true"
+                    alt={label}
+                    role="button"
+                    tabIndex="0"
+                    aria-label={`Ampliar imagen de ${label}`}
+                    onClick={() => onVisualOpen(assetSrc, label)}
+                    onKeyDown={(event) => handleVisualKeyDown(event, assetSrc, label)}
                     loading="lazy"
                     decoding="async"
                   />
@@ -331,6 +300,10 @@ function OptionGroup({ group, index }) {
                   ref={(node) => {
                     itemRefs.current[group.items.length + extraIndex] = node;
                   }}
+                  onMouseEnter={(event) => startBoostTimer(event.currentTarget)}
+                  onMouseLeave={(event) => clearBoostTimer(event.currentTarget)}
+                  onFocus={(event) => startBoostTimer(event.currentTarget)}
+                  onBlur={(event) => clearBoostTimer(event.currentTarget)}
                   className={`option-group__item${assetSrc ? ' option-group__item--has-visual' : ''}`}
                 >
                   <span className="option-group__item-label">{extra}</span>
@@ -338,8 +311,12 @@ function OptionGroup({ group, index }) {
                     <img
                       className="option-group__item-visual"
                       src={assetSrc}
-                      alt=""
-                      aria-hidden="true"
+                      alt={extra}
+                      role="button"
+                      tabIndex="0"
+                      aria-label={`Ampliar imagen de ${extra}`}
+                      onClick={() => onVisualOpen(assetSrc, extra)}
+                      onKeyDown={(event) => handleVisualKeyDown(event, assetSrc, extra)}
                       loading="lazy"
                       decoding="async"
                     />
@@ -355,6 +332,14 @@ function OptionGroup({ group, index }) {
 }
 
 export default function CustomBowlSection({ content }) {
+  const [activeVisual, setActiveVisual] = useState(null);
+
+  const openVisual = (src, label) => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 959px)').matches) {
+      setActiveVisual({ src, label });
+    }
+  };
+
   return (
     <section id="custom" className="page-section">
       <div className="panel panel--custom">
@@ -370,9 +355,32 @@ export default function CustomBowlSection({ content }) {
 
         <div className="menu-grid menu-grid--options">
           {content.groups.map((group, index) => (
-            <OptionGroup key={group.name} group={group} index={index} />
+            <OptionGroup key={group.name} group={group} index={index} onVisualOpen={openVisual} />
           ))}
         </div>
+
+        {activeVisual ? (
+          <div
+            className="option-visual-preview"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Vista ampliada de ${activeVisual.label}`}
+            onClick={() => setActiveVisual(null)}
+          >
+            <img src={activeVisual.src} alt={activeVisual.label} onClick={(event) => event.stopPropagation()} />
+            {['top-left', 'top-right', 'bottom-left', 'bottom-right'].map((position) => (
+              <button
+                key={position}
+                type="button"
+                className={`option-visual-preview__close option-visual-preview__close--${position}`}
+                onClick={() => setActiveVisual(null)}
+                aria-label="Cerrar imagen ampliada"
+              >
+                ×
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );

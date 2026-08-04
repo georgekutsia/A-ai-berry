@@ -16,7 +16,11 @@ const REWARD_INGREDIENTS = [
 const REWARD_ARC_CENTER_X = 50;
 const REWARD_ARC_CENTER_Y = 69;
 
-function getRewardArcConfig(viewportWidth) {
+function getRewardArcConfig(viewportWidth, viewportHeight) {
+  if (viewportWidth < 960 && viewportWidth > viewportHeight) {
+    return viewportWidth < 570 ? { radiusX: 39.2, radiusY: 30.8 } : { radiusX: 58.8, radiusY: 47.6 };
+  }
+
   if (viewportWidth < 570) {
     return { radiusX: 56, radiusY: 44 };
   }
@@ -24,8 +28,8 @@ function getRewardArcConfig(viewportWidth) {
   return { radiusX: 84, radiusY: 68 };
 }
 
-function getRewardArcPoint(index, total, viewportWidth) {
-  const { radiusX, radiusY } = getRewardArcConfig(viewportWidth);
+function getRewardArcPoint(index, total, viewportWidth, viewportHeight) {
+  const { radiusX, radiusY } = getRewardArcConfig(viewportWidth, viewportHeight);
   const progress = total <= 1 ? 0.5 : index / (total - 1);
   const angle = Math.PI - progress * Math.PI;
 
@@ -35,8 +39,8 @@ function getRewardArcPoint(index, total, viewportWidth) {
   };
 }
 
-function getRewardOrbitStyle(index, ingredient, viewportWidth) {
-  const point = getRewardArcPoint(index, REWARD_INGREDIENTS.length, viewportWidth);
+function getRewardOrbitStyle(index, ingredient, viewportWidth, viewportHeight) {
+  const point = getRewardArcPoint(index, REWARD_INGREDIENTS.length, viewportWidth, viewportHeight);
 
   return {
     '--reward-delay': `${index * 0.1}s`,
@@ -96,13 +100,15 @@ function LoyaltyStamp({ number, isComplete }) {
 function LoyaltyBackCard({ content, completedStamps }) {
   const isRewardVisible = completedStamps === 8;
   const isSpanishStyleReward = content.freeBowlNeon?.includes('gratis');
-  const [viewportWidth, setViewportWidth] = useState(() =>
-    typeof window === 'undefined' ? 1200 : window.innerWidth
+  const [viewport, setViewport] = useState(() =>
+    typeof window === 'undefined'
+      ? { width: 1200, height: 800 }
+      : { width: window.innerWidth, height: window.innerHeight }
   );
 
   useEffect(() => {
     const handleResize = () => {
-      setViewportWidth(window.innerWidth);
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
     };
 
     window.addEventListener('resize', handleResize);
@@ -141,7 +147,7 @@ function LoyaltyBackCard({ content, completedStamps }) {
                   <span
                     key={ingredient.name}
                     className="loyalty-card__reward-orbit"
-                    style={getRewardOrbitStyle(index, ingredient, viewportWidth)}
+                    style={getRewardOrbitStyle(index, ingredient, viewport.width, viewport.height)}
                   >
                     <img
                       className="loyalty-card__reward-item"

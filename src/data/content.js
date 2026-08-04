@@ -20,11 +20,9 @@ export const siteContent = {
         'Descubre combinaciones con fruta, salsas y toppings para cada momento del d\u00eda, desde algo ligero hasta un bowl bien cargado.',
       primaryCta: 'Ver bowls',
       secondaryCta: 'Crea tu bowl',
-      stats: [
-        { value: '5', label: 'Bowls favoritos' },
-        { value: '4', label: 'Tama\u00f1os' },
-        { value: 'BCN', label: 'Sardenya 360' },
-      ],
+      locationMessage: 'Ven, estamos en BCN, calle Sardenya 360',
+      visitHref:
+        'http://google.com/maps/place/A%C3%87AI+BERRY/@41.4057456,2.1683702,16.03z/data=!4m10!1m2!2m1!1zYcOnYWk!3m6!1s0x12a4a322d69ed73d:0x8dfe5ac06e9d9bb5!8m2!3d41.4054942!4d2.1708714!15sCgVhw6dhaVoHIgVhw6dhaZIBDmljZV9jcmVhbV9zaG9wmgFEQ2k5RFFVbFJRVU52WkVOb2RIbGpSamx2VDIxb2MxRXdWVEZqTVZKWVVtMTRXR0pYYnpCa2EwcHJUakJOTTA0eFJSQULgAQD6AQQIABA9!16s%2Fg%2F11z3n_h15k?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D',
     },
     signature: {
       title: 'Bowls de a\u00e7ai',
@@ -219,11 +217,9 @@ export const siteContent = {
         'Descobreix combinacions amb fruita, salses i toppings per a qualsevol moment del dia, des d\u2019una opci\u00f3 lleugera fins a un bol ben carregat.',
       primaryCta: 'Veure bols',
       secondaryCta: 'Crea el teu bol',
-      stats: [
-        { value: '5', label: 'Bols preferits' },
-        { value: '4', label: 'Mides' },
-        { value: 'BCN', label: 'Sardenya 360' },
-      ],
+      locationMessage: 'Vine, estem a BCN, carrer Sardenya 360',
+      visitHref:
+        'http://google.com/maps/place/A%C3%87AI+BERRY/@41.4057456,2.1683702,16.03z/data=!4m10!1m2!2m1!1zYcOnYWk!3m6!1s0x12a4a322d69ed73d:0x8dfe5ac06e9d9bb5!8m2!3d41.4054942!4d2.1708714!15sCgVhw6dhaVoHIgVhw6dhaZIBDmljZV9jcmVhbV9zaG9wmgFEQ2k5RFFVbFJRVU52WkVOb2RIbGpSamx2VDIxb2MxRXdWVEZqTVZKWVVtMTRXR0pYYnpCa2EwcHJUakJOTTA0eFJSQULgAQD6AQQIABA9!16s%2Fg%2F11z3n_h15k?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D',
     },
     signature: {
       title: "Bols d'a\u00e7ai",
@@ -418,11 +414,9 @@ export const siteContent = {
         'Discover combinations with fruit, sauces and toppings for any time of day, from something light to a fully loaded bowl.',
       primaryCta: 'See bowls',
       secondaryCta: 'Build your bowl',
-      stats: [
-        { value: '5', label: 'Signature bowls' },
-        { value: '4', label: 'Sizes' },
-        { value: 'BCN', label: 'Sardenya 360' },
-      ],
+      locationMessage: 'Come, we are in BCN, Sardenya 360 street',
+      visitHref:
+        'http://google.com/maps/place/A%C3%87AI+BERRY/@41.4057456,2.1683702,16.03z/data=!4m10!1m2!2m1!1zYcOnYWk!3m6!1s0x12a4a322d69ed73d:0x8dfe5ac06e9d9bb5!8m2!3d41.4054942!4d2.1708714!15sCgVhw6dhaVoHIgVhw6dhaZIBDmljZV9jcmVhbV9zaG9wmgFEQ2k5RFFVbFJRVU52WkVOb2RIbGpSamx2VDIxb2MxRXdWVEZqTVZKWVVtMTRXR0pYYnpCa2EwcHJUakJOTTA0eFJSQULgAQD6AQQIABA9!16s%2Fg%2F11z3n_h15k?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D',
     },
     signature: {
       title: 'A\u00e7ai bowls',
