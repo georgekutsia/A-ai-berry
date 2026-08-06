@@ -1053,10 +1053,10 @@ button {
   line-height: 1.42;
   transform-origin: left center;
   transition:
-    color 300ms ease,
-    text-shadow 300ms ease,
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 300ms ease;
+    color 420ms ease,
+    text-shadow 420ms ease,
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms ease;
   will-change: transform, filter;
 }
 
@@ -1090,9 +1090,9 @@ button {
   transform: translate3d(calc(100% + 10px), -50%, 0) scale(0.82);
   transform-origin: right center;
   transition:
-    opacity 300ms ease,
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 300ms ease;
+    opacity 440ms ease,
+    transform 540ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 440ms ease;
   will-change: transform, opacity, filter;
 }
 
@@ -1137,10 +1137,16 @@ button {
 
 .option-group__item.is-near-centered .option-group__item-visual {
   opacity: 0.62;
-  transform: translate3d(calc(100% + 10px - 5.72rem), -50%, 0) scale(0.92);
+  transform: translate3d(calc(100% + 10px - 5.72rem), -50%, 0) scale(0.9);
   filter:
     drop-shadow(0 0 0.35rem rgba(0, 224, 255, 0.18))
     drop-shadow(0 0.55rem 0.95rem rgba(6, 3, 20, 0.24));
+}
+
+.option-group__item.is-far-centered .option-group__item-visual {
+  opacity: 0.34;
+  transform: translate3d(calc(100% + 10px - 3.2rem), -50%, 0) scale(0.8);
+  filter: drop-shadow(0 0.35rem 0.7rem rgba(6, 3, 20, 0.2));
 }
 
 .option-group__item.is-centered .option-group__item-visual {

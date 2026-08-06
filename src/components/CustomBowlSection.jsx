@@ -306,7 +306,7 @@ function OptionGroup({ group, index, onVisualOpen }) {
 
     const resetItems = () => {
       items.forEach((item) => {
-        item.classList.remove('is-centered', 'is-near-centered');
+        item.classList.remove('is-centered', 'is-near-centered', 'is-far-centered');
       });
     };
 
@@ -334,15 +334,21 @@ function OptionGroup({ group, index, onVisualOpen }) {
 
       resetItems();
 
-      rankedItems.slice(0, 2).forEach(({ item, distance }) => {
-        if (distance < 190) {
+      rankedItems.slice(0, 1).forEach(({ item, distance }) => {
+        if (distance < 100) {
           item.classList.add('is-centered');
         }
       });
 
-      rankedItems.slice(2, 4).forEach(({ item, distance }) => {
-        if (distance < 280) {
+      rankedItems.slice(1, 3).forEach(({ item, distance }) => {
+        if (distance < 190) {
           item.classList.add('is-near-centered');
+        }
+      });
+
+      rankedItems.slice(3, 5).forEach(({ item, distance }) => {
+        if (distance < 280) {
+          item.classList.add('is-far-centered');
         }
       });
     };
