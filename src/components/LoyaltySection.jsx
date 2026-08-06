@@ -3,15 +3,17 @@ import BerryMascot from './BerryMascot';
 import NeonWord from './NeonWord';
 
 const REWARD_INGREDIENTS = [
-  { name: 'Fresa', src: '/fruits/Trozo Fresa.png', size: 4.8 },
-  { name: 'Arandanos', src: '/fruits/Trozo Ar\u00E1ndano.png', size: 3.4 },
-  { name: 'Kiwi', src: '/fruits/Trozo Kiwi.png', size: 4.2 },
-  { name: 'Mango', src: '/fruits/Trozo Mango.png', size: 5.1 },
-  { name: 'Pistacho', src: '/topping-extras/Pistacho.png', size: 4.05 },
-  { name: 'Oreo', src: '/toppings/Oreo.png', size: 4.4 },
-  { name: 'Platano', src: '/fruits/Trozo pl\u00E1tano.png', size: 4.6 },
-  { name: 'Granola', src: '/toppings/Granola.png', size: 4.75 }
+  { name: 'Fresa', src: '/fruits/Trozo Fresa.webp', size: 4.8 },
+  { name: 'Arandanos', src: '/fruits/Trozo Ar%C3%A1ndano.webp', size: 3.4 },
+  { name: 'Kiwi', src: '/fruits/Trozo Kiwi.webp', size: 4.2 },
+  { name: 'Mango', src: '/fruits/Trozo Mango.webp', size: 5.1 },
+  { name: 'Pistacho', src: '/topping-extras/pistacho.webp', size: 4.05 },
+  { name: 'Oreo', src: '/toppings/oreo.webp', size: 4.4 },
+  { name: 'Platano', src: '/fruits/Trozo pl%C3%A1tano.webp', size: 4.6 },
+  { name: 'Granola', src: '/toppings/granola.webp', size: 4.75 }
 ];
+
+const REWARD_BOWL_SRC = '/bowls/Bowl con A%C3%A7ai.webp';
 
 const REWARD_ARC_CENTER_X = 50;
 const REWARD_ARC_CENTER_Y = 69;
@@ -136,6 +138,7 @@ function LoyaltyBackCard({ content, completedStamps }) {
           <div className={`loyalty-card__reward-banner ${isRewardVisible ? 'is-visible' : ''}`.trim()}>
             <div className="loyalty-card__reward-visual">
               <div className="loyalty-card__reward-bowl-scene" aria-hidden="true">
+                {false ? (
                 <img
                   className="loyalty-card__reward-bowl"
                   src="/bowls/Bowl con Açai.png"
@@ -143,6 +146,15 @@ function LoyaltyBackCard({ content, completedStamps }) {
                   loading="lazy"
                   decoding="async"
                 />
+                ) : (
+                  <img
+                    className="loyalty-card__reward-bowl"
+                    src={REWARD_BOWL_SRC}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
                 {REWARD_INGREDIENTS.map((ingredient, index) => (
                   <span
                     key={ingredient.name}

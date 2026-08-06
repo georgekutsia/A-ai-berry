@@ -1,8 +1,8 @@
 const mascotLayers = [
-  { src: '/mascot/01-base.png', className: 'berry-mascot__layer berry-mascot__layer--base', alt: 'Base del personaje' },
-  { src: '/mascot/02-eyes.png', className: 'berry-mascot__layer berry-mascot__layer--eyes', alt: 'Ojos del personaje' },
-  { src: '/mascot/03-mouth.png', className: 'berry-mascot__layer berry-mascot__layer--mouth', alt: 'Boca del personaje' },
-  { src: '/mascot/04-leaf.png', className: 'berry-mascot__layer berry-mascot__layer--leaf', alt: 'Hoja del personaje' },
+  { src: '/mascot/01-base.webp', className: 'berry-mascot__layer berry-mascot__layer--base', alt: 'Base del personaje' },
+  { src: '/mascot/02-eyes.webp', className: 'berry-mascot__layer berry-mascot__layer--eyes', alt: 'Ojos del personaje' },
+  { src: '/mascot/03-mouth.webp', className: 'berry-mascot__layer berry-mascot__layer--mouth', alt: 'Boca del personaje' },
+  { src: '/mascot/04-leaf.webp', className: 'berry-mascot__layer berry-mascot__layer--leaf', alt: 'Hoja del personaje' },
 ];
 
 export default function BerryMascot() {
