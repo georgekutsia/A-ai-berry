@@ -862,6 +862,37 @@ button {
   width: 6.8rem;
 }
 
+@media (max-width: 699px) {
+  .size-strip__item {
+    grid-template-columns: 4.2rem minmax(0, 1fr) auto;
+    gap: 0.45rem;
+    padding: 0.85rem 0.65rem;
+  }
+
+  .size-strip__item strong {
+    white-space: nowrap;
+    font-size: clamp(1.05rem, 6.3vw, 1.6rem);
+  }
+
+  .size-strip__item > div {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .bowl-illustration {
+    width: 4rem;
+    transform: translateX(-0.25rem);
+  }
+
+  .bowl-illustration--medium {
+    width: 4.45rem;
+  }
+
+  .bowl-illustration--large {
+    width: 5rem;
+  }
+}
+
 .menu-grid {
   display: grid;
   gap: 1rem;
@@ -2030,6 +2061,13 @@ button {
   }
 }
 
+@media (max-width: 959px) {
+  .option-group__item-visual {
+    pointer-events: auto;
+    cursor: zoom-in;
+  }
+}
+
 @media (max-width: 959px) and (orientation: landscape) {
   .site-header {
     gap: 0.65rem;
@@ -2338,7 +2376,7 @@ button {
   }
 }
 
-@media (max-width: 959px) {
+@media (max-width: 959px) and (orientation: landscape) {
   .option-group__item--has-visual {
     padding-right: min(34vw, 8rem);
   }

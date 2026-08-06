@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import SectionHeading from './SectionHeading';
 
@@ -237,6 +237,80 @@ function OptionGroup({ group, index, onVisualOpen }) {
       onVisualOpen(assetSrc, label);
     }
   };
+
+  useEffect(() => {
+    const items = itemRefs.current.filter(Boolean);
+
+    if (!items.length || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    let frameId = 0;
+    const portraitMobileQuery = window.matchMedia('(max-width: 959px) and (orientation: portrait)');
+
+    const resetItems = () => {
+      items.forEach((item) => {
+        item.classList.remove('is-centered', 'is-near-centered');
+      });
+    };
+
+    const updateFocus = () => {
+      frameId = 0;
+
+      if (!portraitMobileQuery.matches) {
+        resetItems();
+        return;
+      }
+
+      const viewportCenter = window.innerHeight / 2;
+      const rankedItems = items
+        .map((item) => {
+          const rect = item.getBoundingClientRect();
+          const itemCenter = rect.top + rect.height / 2;
+
+          return { item, distance: Math.abs(itemCenter - viewportCenter) };
+        })
+        .filter(({ item }) => {
+          const rect = item.getBoundingClientRect();
+          return rect.bottom > 0 && rect.top < window.innerHeight;
+        })
+        .sort((left, right) => left.distance - right.distance);
+
+      resetItems();
+
+      rankedItems.slice(0, 2).forEach(({ item, distance }) => {
+        if (distance < 190) {
+          item.classList.add('is-centered');
+        }
+      });
+
+      rankedItems.slice(2, 4).forEach(({ item, distance }) => {
+        if (distance < 280) {
+          item.classList.add('is-near-centered');
+        }
+      });
+    };
+
+    const requestUpdate = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(updateFocus);
+      }
+    };
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    requestUpdate();
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      resetItems();
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
+  }, [group]);
 
   return (
     <article className={`option-group option-group--${index}`.trim()}>
