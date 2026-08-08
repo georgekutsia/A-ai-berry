@@ -194,7 +194,7 @@ function LoyaltyBackCard({ content, completedStamps }) {
   );
 }
 
-function LoyaltyFrontCard({ brand, content }) {
+function LoyaltyFrontCard({ brand, content, mapsHref }) {
   const [brandFirst, brandSecond] = brand.split(' ');
 
   return (
@@ -220,19 +220,28 @@ function LoyaltyFrontCard({ brand, content }) {
         </div>
 
         <footer className="loyalty-card__footer">
-          {content.contacts.map((contact) => (
-            <div key={contact.label} className="loyalty-card__contact">
-              <ContactIcon icon={contact.icon} />
-              <span>{contact.label}</span>
-            </div>
-          ))}
+          {content.contacts.map((contact) => {
+            const isLocation = contact.icon === 'location';
+            const ContactElement = isLocation ? 'a' : 'div';
+
+            return (
+              <ContactElement
+                key={contact.label}
+                className="loyalty-card__contact"
+                {...(isLocation ? { href: mapsHref, target: '_blank', rel: 'noreferrer' } : {})}
+              >
+                <ContactIcon icon={contact.icon} />
+                <span>{contact.label}</span>
+              </ContactElement>
+            );
+          })}
         </footer>
       </div>
     </article>
   );
 }
 
-export default function LoyaltySection({ content, brand }) {
+export default function LoyaltySection({ content, brand, mapsHref }) {
   const [completedStamps, setCompletedStamps] = useState(0);
 
   useEffect(() => {
@@ -256,7 +265,7 @@ export default function LoyaltySection({ content, brand }) {
         <h2 className="sr-only">{content.title}</h2>
         <div className="loyalty-gallery loyalty-gallery--reconstructed">
           <LoyaltyBackCard content={content} completedStamps={completedStamps} />
-          <LoyaltyFrontCard brand={brand} content={content} />
+          <LoyaltyFrontCard brand={brand} content={content} mapsHref={mapsHref} />
         </div>
       </div>
     </section>

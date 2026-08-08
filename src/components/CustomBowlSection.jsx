@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import SectionHeading from './SectionHeading';
 
@@ -495,8 +496,9 @@ export default function CustomBowlSection({ content }) {
           ))}
         </div>
 
-        {activeVisual ? (
-          <div
+        {activeVisual && typeof document !== 'undefined'
+          ? createPortal(
+            <div
             className="option-visual-preview"
             role="dialog"
             aria-modal="true"
@@ -515,8 +517,10 @@ export default function CustomBowlSection({ content }) {
                 ×
               </button>
             ))}
-          </div>
-        ) : null}
+            </div>,
+            document.body,
+          )
+          : null}
       </div>
     </section>
   );

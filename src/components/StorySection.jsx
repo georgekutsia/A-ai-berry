@@ -18,7 +18,11 @@ export default function StorySection({ content }) {
         <article id="visit" className="visit-card">
           <div>
             <h3>{content.visitTitle}</h3>
-            <p>{content.visitText}</p>
+            <p>
+              <a href={content.visitHref} target="_blank" rel="noreferrer" className="visit-card__address-link">
+                {content.visitText}
+              </a>
+            </p>
           </div>
           <a
             href={content.visitHref}

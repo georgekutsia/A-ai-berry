@@ -1973,6 +1973,7 @@ button {
   display: grid;
   gap: 1rem;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .site-footer {
@@ -2154,29 +2155,34 @@ button {
   }
 
   .size-strip__item {
-    grid-template-columns: 3.8rem minmax(0, 1fr);
+    grid-template-columns: 5.8rem auto;
     grid-template-rows: auto auto;
-    gap: 0.12rem 0.45rem;
+    justify-content: center;
+    align-content: center;
+    gap: 0.12rem 0.6rem;
     padding: 0.65rem;
   }
 
   .size-strip__item .bowl-illustration {
     grid-column: 1;
     grid-row: 1 / span 2;
-    width: 3.8rem;
+    justify-self: center;
+    width: 3.4rem;
   }
 
   .size-strip__item .bowl-illustration--medium {
-    width: 4.1rem;
+    width: 4.7rem;
   }
 
   .size-strip__item .bowl-illustration--large {
-    width: 4.4rem;
+    width: 5.8rem;
   }
 
   .size-strip__item > div {
     grid-column: 2;
     grid-row: 1;
+    justify-self: center;
+    text-align: center;
   }
 
   .size-strip__item h3 {
@@ -2190,9 +2196,33 @@ button {
   .size-strip__item > strong {
     grid-column: 2;
     grid-row: 2;
-    justify-self: start;
+    justify-self: center;
     font-size: clamp(1.1rem, 3vw, 1.35rem);
     white-space: nowrap;
+  }
+
+  .menu-grid--signature {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .menu-grid--signature .menu-card {
+    grid-column: span 2;
+    padding: 0.7rem;
+  }
+
+  .menu-grid--signature .menu-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .menu-grid--signature .menu-card h3 {
+    margin-bottom: 0.35rem;
+    font-size: 18px;
+  }
+
+  .menu-grid--signature .menu-card p {
+    font-size: 15px;
+    line-height: 1.25;
   }
 
   .site-header {
@@ -2265,14 +2295,14 @@ button {
   }
 
   .loyalty-card__hero {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: 0.3rem;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    justify-items: stretch;
+    gap: 0.2rem;
   }
 
   .loyalty-card__mascot {
-    grid-column: 1;
-    grid-row: 2;
+    grid-column: 2;
+    grid-row: 1;
     width: min(21.6vw, 6.6rem);
   }
 
@@ -2283,13 +2313,13 @@ button {
   .loyalty-card__tag--left {
     grid-column: 1;
     grid-row: 1;
-    justify-self: center;
+    justify-self: end;
   }
 
   .loyalty-card__tag--right {
-    grid-column: 1;
-    grid-row: 3;
-    justify-self: center;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: start;
   }
 
   .loyalty-card__footer {
@@ -2307,7 +2337,7 @@ button {
   }
 
   .loyalty-stamp__berry {
-    width: clamp(3.12rem, 12.8vw, 4.24rem);
+    width: clamp(2.52rem, 10.37vw, 3.44rem);
   }
 
   .loyalty-card--back .loyalty-card__progress-stage {
@@ -2316,11 +2346,11 @@ button {
   }
 
   .loyalty-card--back .loyalty-card__stamp-grid {
-    transform: translateY(-0.85rem);
+    transform: translateY(-1.15rem);
   }
 
   .loyalty-card--back .loyalty-card__stamp-grid.is-hidden {
-    transform: translateY(-0.85rem) scale(0.94);
+    transform: translateY(-1.15rem) scale(0.94);
   }
 
   .loyalty-card--back .loyalty-card__reward {
@@ -2337,11 +2367,11 @@ button {
   }
 
   .loyalty-card--back .loyalty-card__reward-banner {
-    transform: translateY(-2rem) scale(0.94);
+    transform: translateY(-2.86rem) scale(0.765);
   }
 
   .loyalty-card--back .loyalty-card__reward-banner.is-visible {
-    transform: translateY(-2rem) scale(1);
+    transform: translateY(-2.86rem) scale(0.81);
   }
 
   /* Layout: grid areas so CTAs (left) and stats (right) share a row */
@@ -2549,7 +2579,7 @@ button {
 .option-visual-preview {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 100;
   display: grid;
   place-items: center;
   padding: 10svh 10vw;

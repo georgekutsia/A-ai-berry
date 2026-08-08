@@ -61,7 +61,7 @@ export default function App() {
         <HeroSection content={content.hero} />
         <SignatureSection content={content.signature} />
         <CustomBowlSection content={content.custom} />
-        <LoyaltySection content={content.loyalty} brand={content.brand} />
+        <LoyaltySection content={content.loyalty} brand={content.brand} mapsHref={content.hero.visitHref} />
         <StorySection content={content.story} />
       </main>
 
