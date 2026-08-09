@@ -16,11 +16,35 @@ export default function App() {
     return languages.includes(savedLanguage) ? savedLanguage : DEFAULT_LANGUAGE;
   });
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     window.localStorage.setItem('acai-berry-language', language);
     document.documentElement.lang = siteContent[language].locale;
   }, [language]);
+
+  useEffect(() => {
+    const sectionIds = ['home', 'bowls', 'custom', 'loyalty', 'story', 'visit'];
+    const sections = sectionIds
+      .map((sectionId) => document.getElementById(sectionId))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top);
+
+        if (visibleEntries.length > 0) {
+          setActiveSection(visibleEntries[0].target.id);
+        }
+      },
+      { rootMargin: '-18% 0px -62% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   const content = siteContent[language];
   const navItems = [
@@ -32,7 +56,10 @@ export default function App() {
     { id: 'visit', label: content.nav.visit },
   ];
 
-  const closeMenu = () => setMenuOpen(false);
+  const handleNavClick = (event, sectionId) => {
+    setActiveSection(sectionId);
+    setMenuOpen(false);
+  };
 
   return (
     <div className="app-shell">
@@ -54,7 +81,8 @@ export default function App() {
         onLanguageChange={setLanguage}
         isMenuOpen={menuOpen}
         onMenuToggle={() => setMenuOpen((open) => !open)}
-        onNavClick={closeMenu}
+        onNavClick={handleNavClick}
+        activeSection={activeSection}
       />
 
       <main className="page-shell">

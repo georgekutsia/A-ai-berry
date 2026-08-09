@@ -10,10 +10,11 @@ export default function Header({
   isMenuOpen,
   onMenuToggle,
   onNavClick,
+  activeSection,
 }) {
   return (
     <header className="site-header">
-      <a className="site-header__brand" href="#home" onClick={onNavClick}>
+      <a className="site-header__brand" href="#home" onClick={(event) => onNavClick(event, 'home')}>
         <NeonWord text="AÇAI" className="site-header__logo" tone="pink" />
         <NeonWord text="BERRY" className="site-header__logo site-header__logo--blue" tone="blue" />
       </a>
@@ -48,7 +49,13 @@ export default function Header({
 
       <nav className={`site-nav ${isMenuOpen ? 'is-open' : ''}`}>
         {navItems.map((item) => (
-          <a key={item.id} href={`#${item.id}`} onClick={onNavClick}>
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            className={item.id === activeSection ? 'is-active' : ''}
+            aria-current={item.id === activeSection ? 'page' : undefined}
+            onClick={(event) => onNavClick(event, item.id)}
+          >
             {item.label}
           </a>
         ))}
