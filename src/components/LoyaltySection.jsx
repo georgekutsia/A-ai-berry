@@ -99,8 +99,7 @@ function LoyaltyStamp({ number, isComplete }) {
   );
 }
 
-function LoyaltyBackCard({ content, completedStamps }) {
-  const isRewardVisible = completedStamps === 8;
+function LoyaltyBackCard({ content, completedStamps, isRewardVisible }) {
   const isSpanishStyleReward = content.freeBowlNeon?.includes('gratis');
   const [viewport, setViewport] = useState(() =>
     typeof window === 'undefined'
@@ -243,28 +242,41 @@ function LoyaltyFrontCard({ brand, content, mapsHref }) {
 
 export default function LoyaltySection({ content, brand, mapsHref }) {
   const [completedStamps, setCompletedStamps] = useState(0);
+  const [isRewardVisible, setIsRewardVisible] = useState(false);
 
   useEffect(() => {
-    const timeoutId =
-      completedStamps < 8
-        ? window.setTimeout(() => {
-            setCompletedStamps((current) => current + 1);
-          }, 300)
-        : window.setTimeout(() => {
-            setCompletedStamps(0);
-          }, 2800);
+    let timeoutId;
+
+    if (completedStamps < 8) {
+      timeoutId = window.setTimeout(() => {
+        setCompletedStamps((current) => current + 1);
+      }, 120);
+    } else if (!isRewardVisible) {
+      timeoutId = window.setTimeout(() => {
+        setIsRewardVisible(true);
+      }, 500);
+    } else {
+      timeoutId = window.setTimeout(() => {
+        setIsRewardVisible(false);
+        setCompletedStamps(0);
+      }, 2800);
+    }
 
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [completedStamps]);
+  }, [completedStamps, isRewardVisible]);
 
   return (
     <section id="loyalty" className="page-section">
       <div className="panel loyalty-panel">
         <h2 className="sr-only">{content.title}</h2>
         <div className="loyalty-gallery loyalty-gallery--reconstructed">
-          <LoyaltyBackCard content={content} completedStamps={completedStamps} />
+          <LoyaltyBackCard
+            content={content}
+            completedStamps={completedStamps}
+            isRewardVisible={isRewardVisible}
+          />
           <LoyaltyFrontCard brand={brand} content={content} mapsHref={mapsHref} />
         </div>
       </div>
